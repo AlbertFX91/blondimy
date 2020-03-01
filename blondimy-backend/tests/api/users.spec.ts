@@ -19,7 +19,9 @@ describe("(/users) User entrypoint", function() {
             })
 	});
 	after(function() {
-		// runs after all tests in this block
+        // runs after all tests in this block
+        var mongoose = require('mongoose');
+        mongoose.disconnect();
 	});
 	beforeEach(function() {
         // runs before each test in this block
@@ -56,16 +58,6 @@ describe("(/users) User entrypoint", function() {
             return chai.request('http://localhost:3000')
                 .post('/api/v1/users')
                 .send({ username: username, password: password })
-                .then(res => {
-                    console.log("TEST 2");
-                    console.log(res.body);
-                    /*
-                    return chai.request('http://localhost:3000')
-                        .post('/api/v1/users')
-                        .send({ username: username, password: password })
-                    */
-                })
-                .then(() => new Promise(resolve => setTimeout(() => resolve(), 1000)))
                 .then(() => chai.request('http://localhost:3000')
                         .post('/api/v1/users')
                         .send({ username: username, password: password })
@@ -88,7 +80,6 @@ describe("(/users) User entrypoint", function() {
                         });
                 });
                 */
-
         });
     });			
 });
