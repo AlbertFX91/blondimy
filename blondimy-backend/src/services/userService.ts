@@ -30,6 +30,7 @@ export default class UserService {
             username: userData.username,
             hash: hash
         });
+
         let res = await user.save();
         // Adding the token into the final object
         res.token = token;
@@ -65,7 +66,6 @@ export default class UserService {
     }
 
     public toAuthDTO(user: any){
-        console.log(user);
         const dto: UserAuthDTO = {
             id: user._id,
             username: user.username,

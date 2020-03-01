@@ -26,7 +26,7 @@ export default function errorHandler(err: any, req: any, res:any , next: any) {
         // mongoose error
         return generateError(res, 422, err.msg);
     }
-
+422
     if (err.type === 'entity.parse.failed') {
         // Request data parsing error
         return generateError(res, 400, 'Invalid Request');
