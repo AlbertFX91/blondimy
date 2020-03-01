@@ -4,8 +4,10 @@ import express from 'express'
 import { Application } from 'express'
 
 class Server {
-    public app: Application
+    public app: Application | any;
     public port: any
+
+    private serverInstance: any
 
     constructor(config: any){
         this.app = express();
@@ -13,9 +15,18 @@ class Server {
     }
 
     public listen() {
-        this.app.listen(this.port, () => {
+        this.serverInstance = this.app.listen(this.port, () => {
             console.log(`Server is running http://localhost:${this.port} ...`)
-        })
+        });
+
+    }
+
+    public close() {
+        if(this.serverInstance) {
+            this.serverInstance.close(()=>{console.log('Server closed');});
+        }
+        var mongoose = require('mongoose');
+        mongoose.disconnect();
     }
 };
 

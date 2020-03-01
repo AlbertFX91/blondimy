@@ -1,6 +1,6 @@
-import loadRoutes, {constructAPIRoot} from './routes'
-import Server from './server';
-import config from '../config';
+import loadAPI, {constructAPIRoot} from '../../../src/loaders/api'
+import Server from '../../../src/loaders/server';
+import config from '../../../src/config';
 
 var assert = require('chai').assert;
 
@@ -28,7 +28,7 @@ describe("Test routes loader", () => {
             // Server creation
             const server: Server = new Server(config);
             // Loading the routes and applying them to the server
-            loadRoutes(server);
+            loadAPI(server);
             const router: any = server.app.router;
             const stack: Array<any> = router.stack;
             // Finding a layer with the name router which contains in its regexp the api substring

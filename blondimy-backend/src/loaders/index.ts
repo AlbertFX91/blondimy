@@ -3,8 +3,11 @@ import Server from './server';
 // Backend configuration
 import config from '../config';
 
-// Routes
-import loadRoutes from './routes';
+// Loaders
+import loadAPI from './api';
+import loadMongoose from './mongoose';
+import loadExpress from './express';
+import loadMiddlewares from './middlewares';
 
 /**
  * Create a new full configured server instance
@@ -13,8 +16,17 @@ async function createServer(): Promise<Server> {
     // Server creation
     const server: Server = new Server(config);
 
-    // Routes
-    loadRoutes(server);
+    // Express middlewares
+    loadExpress(server);
+
+    // API
+    loadAPI(server);
+
+    // Mongoose
+    loadMongoose();
+
+    // Custom middlewares
+    loadMiddlewares(server);
 
     return server;
 }

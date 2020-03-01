@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DB_HOST=mongo
+      - DB_PORT=27017
+      - DB_NAME=blondimy
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_DATABASE: blondimy
+    ports:
+      - "27017:27017"
+    
+  backend-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: backend
+    command: npm run test
+    environment:
+      - PORT=3000
+      - DB_HOST=mongo
+      - DB_PORT=27017
+      - DB_NAME=blondimy
+    depends_on:
+      - mongo
+      - backend
+    

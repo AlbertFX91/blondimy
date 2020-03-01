@@ -1,4 +1,4 @@
-import config from './index'
+import config from '../../../src/config'
 
 var assert = require('chai').assert;
 
