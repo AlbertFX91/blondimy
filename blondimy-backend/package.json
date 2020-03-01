@@ -24,6 +24,7 @@
     "express": "^5.0.0-alpha.7",
     "express-status-monitor": "^1.2.8",
     "express-validator": "^6.4.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.2",
     "reflect-metadata": "^0.1.13",
     "swagger-jsdoc": "^3.5.0",

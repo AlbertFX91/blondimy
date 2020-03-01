@@ -32,7 +32,7 @@ export default function loadMongoose() {
 
     mongoose.connect(mongooseUrl, config.mongoose.connectionOptions)
     .then(
-        () => {},
+        () => {console.log("[Mongoose connected]")},
         (err: any) => {console.log("[Mongoose connection error]"); throw err;}
     );
 }
