@@ -3,7 +3,7 @@ import cors from 'cors';
 
 // Custom imports
 import api from '../api';
-import Server from './server';
+import { Server } from './server';
 import config from '../config';
 
 /**

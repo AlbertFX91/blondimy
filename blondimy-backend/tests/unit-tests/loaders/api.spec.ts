@@ -1,6 +1,6 @@
 import loadAPI, {constructAPIRoot} from '../../../src/loaders/api'
-import Server from '../../../src/loaders/server';
-import config from '../../../src/config';
+import server from '../../../src/loaders/server';
+import config from '../../../src/loaders';
 
 var assert = require('chai').assert;
 
@@ -25,8 +25,6 @@ describe("Test routes loader", () => {
     });	
     describe("Add the routes to the server: ", () => {
         it("The API router has been added to the server", () => {
-            // Server creation
-            const server: Server = new Server(config);
             // Loading the routes and applying them to the server
             loadAPI(server);
             const router: any = server.app.router;
@@ -36,5 +34,4 @@ describe("Test routes loader", () => {
             assert.isTrue(hasAPIRouter);
         });        
     });		
-    
 });

@@ -26,7 +26,7 @@ export default function loadMongoose() {
 
     const mongooseUrl: string = getMongooseConnectionURL();
 
-    console.log('[Mongoose connection URL]: ' + mongooseUrl);
+    ('[Mongoose connection URL]: ' + mongooseUrl);
 
     mongoose.set('useCreateIndex', true);
 

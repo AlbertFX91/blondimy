@@ -7,7 +7,10 @@
     "start": "./node_modules/.bin/tsc & node ./dist/src/index.js",
     "build": "./node_modules/.bin/tsc",
     "dev": "./node_modules/.bin/tsc-watch --onSuccess \"node ./dist/src/index.js\"",
-    "test": "./node_modules/.bin/mocha -r ts-node/register tests/**/*.spec.ts"
+    "test": "./node_modules/.bin/mocha -r ts-node/register \"tests/**/*.spec.ts\" --exit"
+  },
+  "directories": {
+    "test": "tests"
   },
   "author": "AlbertFX91",
   "license": "ISC",
@@ -18,12 +21,14 @@
     "@types/node": "^13.7.6",
     "bcrypt": "^4.0.0",
     "body-parser": "^1.19.0",
+    "chai-http": "^4.3.0",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^5.0.0-alpha.7",
     "express-status-monitor": "^1.2.8",
     "express-validator": "^6.4.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.2",
     "reflect-metadata": "^0.1.13",
     "swagger-jsdoc": "^3.5.0",

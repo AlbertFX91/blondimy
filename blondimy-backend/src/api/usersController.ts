@@ -2,10 +2,11 @@
 import express from 'express';
 import "reflect-metadata";
 import {container} from "tsyringe";
-import { check, validationResult, body, param } from 'express-validator';
+import {body, header, validationResult } from 'express-validator';
 
 // Middlewares
-import asyncHandler from '../middlewares/async-handler'
+import asyncHandler from '../middlewares/async-handler';
+import {auth} from '../middlewares/auth-handler';
 
 // Services
 import UserService from "../services/userService";
@@ -17,53 +18,109 @@ const app = express.Router();
 
 const userService = container.resolve(UserService);
 
-app.get('/users', async (req, res) => {
-        userService.findAllUsers()
-            .then(users => userService.toDTOs(users))
-            .then(users => res.json(users))
-});
-app.get('/users/:id', async (req: any, res: any, next: any) => {
-        const userId = req.params.id;
-        userService.findById(userId)
-            .then(user => userService.toDTO(user))
-            .then(user => res.json(user))
-            .catch(err => res.status(404).json({message: "User not found"}));
-
-});
+/**
+ * @route POST /users
+ * @group Blondimy - Operations about user
+ * @param {string} username.body.required - username [Min length: 5]
+ * @param {string} password.body.required - user's password [Min length: 5]
+ * @returns {object} 200 - An object with the id, username and token from the registered user
+ * @returns {Error}  default - Unexpected error
+ */
 app.post('/users',
     [
-        body('username').isLength({min: 1}),
+        body('username').isLength({min: 5}),
         body('password').isLength({min: 5}),
     ], 
-    (req: any, res: any, next: any) => {
+    asyncHandler(async (req: any, res: any, next: any) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array() });
+            throw { name: "ValidationError", msg: errors.array() };
         }
-        userService.create(req.body)
-            .then(user => userService.toDTO(user))
-            .then(user => res.json(user))
-            .catch(err => res.status(422).json(err));
+        await userService.create(req.body)
+            .then(user => userService.toAuthDTO(user))
+            .then(user => res.json(user));
     }
-);
+));
 
-app.put('/users/:id',
+/**
+ * @route GET /users/auth
+ * @group Blondimy - Operations about user
+ * @param {string} username.body.required - username [Min length: 5]
+ * @param {string} password.body.required - user's password [Min length: 5]
+ * @returns {object} 200 - An object with the id, username and token from the registered user
+ * @returns {Error}  default - Unexpected error
+ */
+app.get('/users/auth',
     [
-        param('id').exists(),
-        body('username').isLength({min: 1}),
+        body('username').isLength({min: 5}),
         body('password').isLength({min: 5}),
     ], 
-    (req: any, res: any, next: any) => {
+    asyncHandler(async (req: any, res: any, next: any) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array() });
+            throw { name: "ValidationError", msg: errors.array() };
         }
-        const userId: string = req.params.id;
-        return userService.update(userId, req.body)
-            .then(user => userService.toDTO(user))
-            .then((user) => res.json(user))
-            .catch((err) => res.status(422).json(err));
+        await userService.authenticate(req.body)
+            .then(user => user ? userService.toAuthDTO(user) : {})
+            .then(user => res.json(user));
     }
-);
+));
+/**
+ * @route GET /users/me
+ * @group Blondimy - Operations about user
+ * @param {string} authorization.header.required - Token access
+ * @returns {object} 200 - An object with the id, username, creationDate and token from the registered user
+ * @returns {Error}  default - Unexpected error
+ */
+app.get('/users/me',
+    [
+        header('authorization').exists(),
+        auth,
+    ], 
+    asyncHandler(async (req: any, res: any, next: any) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            throw { name: "ValidationError", msg: errors.array() };
+        }
+        await userService.findById(req.userId)
+            .then(user => user ? userService.toDTO(user) : {})
+            .then(user => res.json(user));
+    }
+));
+
+/**
+ * @route DELETE /users/me
+ * @group Blondimy - Operations about user
+ * @param {string} authorization.header.required - Token access
+ * @returns {object} 200 - An object with the id, username, creationDate from the deleted user
+ * @returns {Error}  default - Unexpected error
+ */
+app.delete('/users/me',
+    [
+        header('authorization').exists(),
+        auth,
+    ], 
+    asyncHandler(async (req: any, res: any, next: any) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            throw { name: "ValidationError", msg: errors.array() };
+        }
+        await userService.deleteById(req.userId)
+            .then(user => user ? userService.toDTO(user) : {})
+            .then(user => res.json(user));
+    }
+));
+
+// UserController error verbosity which adds extra information for the global error handler 
+function errorVerbosity (error: any, req: any, res: any, next: any) {
+    if(error.name === 'MongoError') {
+        if(error.code === 11000) {
+            error.msg = "Duplicated value";
+        }
+    }
+    throw error;
+};
+
+app.use(errorVerbosity);
 
 export default app;
