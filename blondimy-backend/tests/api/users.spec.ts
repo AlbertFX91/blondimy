@@ -79,7 +79,7 @@ describe("(/users) User entrypoint", function() {
                 });
         });
         it("It cannot create an user with an username with less than 5 characters", function () {
-            const username = 'sss';
+            const username = 'lil';
             return chai.request('http://localhost:3000')
                 .post('/api/v1/users')
                 .send({ username: username})
