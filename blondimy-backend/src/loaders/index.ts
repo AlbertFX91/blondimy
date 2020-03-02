@@ -1,4 +1,4 @@
-import Server from './server';
+import server, { Server } from './server';
 
 // Backend configuration
 import config from '../config';
@@ -13,8 +13,8 @@ import loadMiddlewares from './middlewares';
  * Create a new full configured server instance
  */
 async function createServer(): Promise<Server> {
-    // Server creation
-    const server: Server = new Server(config);
+    // Server configuration
+    server.config(config);
 
     // Express middlewares
     loadExpress(server);

@@ -7,7 +7,10 @@
     "start": "./node_modules/.bin/tsc & node ./dist/src/index.js",
     "build": "./node_modules/.bin/tsc",
     "dev": "./node_modules/.bin/tsc-watch --onSuccess \"node ./dist/src/index.js\"",
-    "test": "./node_modules/.bin/mocha -r ts-node/register tests/**/*.spec.ts"
+    "test": "./node_modules/.bin/mocha -r ts-node/register \"tests/**/*.spec.ts\" --exit"
+  },
+  "directories": {
+    "test": "tests"
   },
   "author": "AlbertFX91",
   "license": "ISC",

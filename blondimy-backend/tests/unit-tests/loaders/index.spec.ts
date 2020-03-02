@@ -1,6 +1,8 @@
 import createServer from '../../../src/loaders/index'
 
-var assert = require('chai').assert;
+import chai from 'chai';
+var assert = chai.assert;
+var expect = chai.expect;
 
 describe("Test main loader", () => {
 	before(() => {
@@ -16,22 +18,21 @@ describe("Test main loader", () => {
        // runs after each test in this block
 	});
 	describe("Creates the full server application: ", () => {
-        it("Return a promise with a server", (done) => {
+        it("Return a promise with a server", async () => {
             const promise = createServer();
             assert.typeOf(promise, 'Promise');
-            promise.then((server) => {
-                server.close();
-                done();
+            return promise.then((server: any) => {
+                return server.close();
             })
         });
-        it("Returns a Server object", (done) => {
-            createServer()
-                .then((server) => {
-                    assert.hasAllKeys(server, ['app', 'port']);
-                    server.close();
-                    done();
+        it("Returns a Server object", async () => {
+            return createServer()
+                .then((server: any) => {
+                    assert.isNotNull(server.app);
+                    assert.isNotNull(server.port);
+                    var p = server.close();
+                    return p;
                 });
         });
     });		
-    
 });

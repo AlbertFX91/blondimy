@@ -3,7 +3,7 @@ import cors from 'cors';
 import express from 'express';
 const bodyParser = require('body-parser');
 
-import Server from './server';
+import { Server } from './server';
 
 // Backend configuration
 import config from '../config';

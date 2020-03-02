@@ -3,31 +3,40 @@ import express from 'express'
 // Typescript
 import { Application } from 'express'
 
-class Server {
+export class Server {
     public app: Application | any;
     public port: any
+    public running: boolean;
 
     private serverInstance: any
 
-    constructor(config: any){
+    constructor() {
         this.app = express();
+        this.running = false;
+    }
+
+    public config(config: any) {
         this.port = config.node.port;
     }
 
     public listen() {
         this.serverInstance = this.app.listen(this.port, () => {
+            this.running = true;
             console.log(`Server is running http://localhost:${this.port} ...`)
         });
 
     }
 
-    public close() {
+    public async close() {
         if(this.serverInstance) {
-            this.serverInstance.close(()=>{console.log('Server closed');});
+            await this.serverInstance.close(()=>{});
         }
         var mongoose = require('mongoose');
-        mongoose.disconnect();
+        await mongoose.disconnect();
+        this.running = false;
     }
 };
 
-export default Server;
+const server: Server = new Server();
+
+export default server;

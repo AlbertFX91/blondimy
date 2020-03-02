@@ -1,6 +1,6 @@
 import "reflect-metadata";
 
-import Server from './loaders/server';
+import {Server} from './loaders/server';
 
 import createServer from './loaders/index';
 

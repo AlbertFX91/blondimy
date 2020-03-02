@@ -10,7 +10,7 @@ function generateError(res: any, status: number, message: string): object {
 
 
 export default function errorHandler(err: any, req: any, res:any , next: any) {
-    console.log("[ErrorHandler]");
+    
     if (typeof (err) === 'string') {
         // custom application error
         // return res.status(400).json({ message: err });
@@ -34,7 +34,7 @@ export default function errorHandler(err: any, req: any, res:any , next: any) {
 
     if (err.name === 'UnauthorizedError') {
         // jwt authentication error
-        return generateError(res, 401,  'Invalid Token');
+        return generateError(res, 401,  'Authentication error');
     }
 
     console.log(err);

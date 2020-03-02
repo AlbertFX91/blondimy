@@ -19,6 +19,11 @@ const config = {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         }
+    },
+
+    /* JWT */
+    jwt: {
+        secret: process.env.JWT_SECRET || 'XXX-XXX-XXX',
     }
 }
 
