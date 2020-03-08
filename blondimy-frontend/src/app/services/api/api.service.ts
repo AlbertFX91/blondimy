@@ -17,21 +17,25 @@ export class ApiService {
   ) { }
 
   get<T>(path: string, params: HttpParams = new HttpParams()): Observable<T> {
+    console.log(this.apiUrl);
     return this.http.get<T>(`${this.apiUrl}${path}`, { params })
       .pipe(catchError(this.onError));
   }
 
   post<T>(path: string, body: Object = {}): Observable<T> {
+    console.log(this.apiUrl);
     return this.http.post<T>(`${this.apiUrl}${path}`, body)
       .pipe(catchError(this.onError));
   }
 
   put<T>(path: string, body: Object = {}): Observable<T> {
+    console.log(this.apiUrl);
     return this.http.put<T>(`${this.apiUrl}${path}`, body)
       .pipe(catchError(this.onError));
   }
 
   delete<T>(path: string, body: Object = {}): Observable<T> {
+    console.log(this.apiUrl);
     return this.http.delete<T>(`${this.apiUrl}${path}`, body)
       .pipe(catchError(this.onError));
   }
