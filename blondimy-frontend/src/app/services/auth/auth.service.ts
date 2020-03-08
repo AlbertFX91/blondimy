@@ -29,4 +29,12 @@ export class AuthService {
       }));
   }
   
+  public register(username: string, password: string): Observable<any> {
+    return this.apiService.post('/users', {username: username, password: password})
+      .pipe(map(user => {
+          this.currentUser = user;
+          this.token = user['token'];
+          return user;
+      }));
+  }
 }
