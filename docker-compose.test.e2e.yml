@@ -22,21 +22,6 @@ services:
       MONGO_INITDB_DATABASE: blondimy
     ports:
       - "27017:27017"
-    
-  backend-test:
-    build:
-      context: blondimy-backend/
-      dockerfile: Dockerfile.dev
-    image: backend
-    command: npm run test
-    environment:
-      - PORT=3000
-      - DB_HOST=mongo
-      - DB_PORT=27017
-      - DB_NAME=blondimy
-    depends_on:
-      - mongo
-      - backend
   
   e2e:
     build:
