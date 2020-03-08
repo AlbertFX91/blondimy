@@ -1,0 +1,26 @@
+<div id="login-screen" class="full-size">
+    <div id="login-image-container">
+        <img id="loading-image" src="assets/img/creative-team.png">
+    </div>
+    <div id="login-form-container">
+        <form id="login-form" #loginForm="ngForm" (ngSubmit)="onLogin()" va>
+            <h1>WELCOME</h1>
+            <div>
+                <i class="fas fa-user"></i>
+                <input name="username" [(ngModel)]="userLogin.username" type="text"  
+                required minlength="5"/>
+            </div>
+            <div>
+                <i class="fas fa-key"></i>
+                <input name="password" [(ngModel)]="userLogin.password" type="password" 
+                required minlength="5"/>
+            </div>
+            <div *ngIf="error">
+                <span>{{error.message}}</span>
+            </div>
+            <div>
+                <button type="submit" [disabled]="!loginForm.valid">LOGIN</button>
+            </div>
+        </form>
+    </div>
+</div>

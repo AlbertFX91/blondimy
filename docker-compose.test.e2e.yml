@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: blondimy-backend/
+      dockerfile: Dockerfile.dev
+    image: backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DB_HOST=mongo
+      - DB_PORT=27017
+      - DB_NAME=blondimy
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_DATABASE: blondimy
+    ports:
+      - "27017:27017"
+  
+  e2e:
+    build:
+      context: blondimy-frontend/
+      dockerfile: Dockerfile
+    image: frontend
+    command: ng e2e --configuration=docker --port=4202
+    depends_on:
+      - backend
