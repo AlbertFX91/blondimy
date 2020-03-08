@@ -43,14 +43,14 @@ app.post('/users',
 ));
 
 /**
- * @route GET /users/auth
+ * @route POST /users/auth
  * @group Blondimy - Operations about user
  * @param {string} username.body.required - username [Min length: 5]
  * @param {string} password.body.required - user's password [Min length: 5]
  * @returns {object} 200 - An object with the id, username and token from the registered user
  * @returns {Error}  default - Unexpected error
  */
-app.get('/users/auth',
+app.post('/users/auth',
     [
         body('username').isLength({min: 5}),
         body('password').isLength({min: 5}),

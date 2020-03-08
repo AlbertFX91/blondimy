@@ -1,0 +1,33 @@
+#login-screen {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+#login-image-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#loading-image {
+    width: 600px;
+}
+
+#login-form-container {
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+}
+
+.input {
+    border: 1px solid lightgray;
+    border-radius: 8px;
+    padding: 2px 10px;
+    transition: .4s;
+}
+
+.input:focus {
+    border: 1px solid #B23DFF;
+    transition: .4s;
+}

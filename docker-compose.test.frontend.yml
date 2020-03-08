@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: blondimy-backend/
+      dockerfile: Dockerfile.dev
+    image: backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DB_HOST=mongo
+      - DB_PORT=27017
+      - DB_NAME=blondimy
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_DATABASE: blondimy
+    ports:
+      - "27017:27017"
+
+  frontend:
+    build:
+      context: blondimy-frontend/
+      dockerfile: Dockerfile
+    image: frontend
+    command: ng serve --configuration=docker
+    container_name: frontend
+    ports:
+      - "4201:4200"
+    depends_on:
+      - backend
+
+  frontend-test:
+    build:
+      context: blondimy-frontend/
+      dockerfile: Dockerfile
+    image: frontend
+    command: ng test --watch=false
+    depends_on:
+      - backend
+    
