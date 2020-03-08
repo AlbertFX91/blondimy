@@ -6,4 +6,3 @@ services:
 script:
   - docker-compose -f docker-compose.test.backend.yml up --exit-code-from backend-test
   - docker-compose -f docker-compose.test.frontend.yml up --exit-code-from frontend-test
-  - docker-compose -f docker-compose.test.e2e.yml up --exit-code-from e2e

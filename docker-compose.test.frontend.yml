@@ -40,7 +40,7 @@ services:
       context: blondimy-frontend/
       dockerfile: Dockerfile
     image: frontend
-    command: ng test --watch=false
+    command: ng test --watch=false --configuration=docker
     depends_on:
       - backend
     
