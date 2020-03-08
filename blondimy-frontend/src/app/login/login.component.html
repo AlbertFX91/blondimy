@@ -1,3 +1,4 @@
+<!--
 <div id="login-screen" class="full-size">
     <div id="login-image-container">
         <img id="loading-image" src="assets/img/creative-team.png">
@@ -22,5 +23,49 @@
                 <button type="submit" [disabled]="!loginForm.valid">LOGIN</button>
             </div>
         </form>
+    </div>
+</div>
+-->
+
+<div id="signin-selector-main" class="full-size">
+
+    <img id="loading-image" src="assets/img/creative-team.png">
+    <div id="signin-selector-container">
+        <div id="signin-title">
+            Blondimy
+        </div>
+        <div id="sigin-selector-container">
+            <span>LOG IN</span> 
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+                </label>
+            <span>SIGN IN</span> 
+        </div>
+        <div id="signin-selector-body">
+            <form id="login-form" #loginForm="ngForm" (ngSubmit)="onLogin()" va>
+                <div>
+                    <h1>WELCOME</h1>
+                </div>
+                <div id="login-fields">
+                    <div>
+                        <input class="input" name="username" [(ngModel)]="userLogin.username" type="text"  
+                        required minlength="5"
+                        placeholder="Username" />
+                    </div>
+                    <div>
+                        <input class="input" name="password" [(ngModel)]="userLogin.password" type="password" 
+                        required minlength="5"
+                        placeholder="Password"/>
+                    </div>
+                    <div id="error-container" *ngIf="error">
+                        <span>{{error.message}}</span>
+                    </div>
+                </div>
+                <div style="width: 100%;">
+                    <button id="submit-button" type="submit" [disabled]="!loginForm.valid">LOGIN</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
