@@ -9,9 +9,10 @@ const { SpecReporter } = require('jasmine-spec-reporter');
  */
 exports.config = {
   allScriptsTimeout: 11000,
-  specs: [
-    './src/**/*.e2e-spec.ts'
-  ],
+  // specs: [
+  //   './src/**/*.e2e-spec.ts'
+  // ],
+  specs: ['./features/*.feature'],
   capabilities: {
     browserName: 'chrome',
     // Docker purpose
@@ -25,16 +26,23 @@ exports.config = {
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
-  framework: 'jasmine',
-  jasmineNodeOpts: {
-    showColors: true,
-    defaultTimeoutInterval: 30000,
-    print: function() {}
+  framework: 'custom',
+  frameworkPath: require.resolve('protractor-cucumber-framework'),
+  cucumberOpts: {
+    require: ['./steps/*.steps.ts']
   },
   onPrepare() {
     require('ts-node').register({
       project: require('path').join(__dirname, './tsconfig.json')
     });
-    jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
+     // Load chai assertions
+    const chai = require('chai');
+    const chaiAsPromised = require('chai-as-promised');
+
+    // Load chai-as-promised support
+    chai.use(chaiAsPromised);
+
+    // Initialise should API (attaches as a property on Object)
+    chai.should();
   }
 };

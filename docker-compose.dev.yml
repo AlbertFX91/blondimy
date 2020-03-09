@@ -14,6 +14,14 @@ services:
       - DB_NAME=blondimy
     depends_on:
       - mongo
+
+  frontend:
+    build:
+      context: blondimy-frontend/
+      dockerfile: Dockerfile
+    ports:
+      - "4100:"
+  
   mongo:
     image: mongo
     ports:

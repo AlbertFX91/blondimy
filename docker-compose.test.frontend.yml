@@ -29,7 +29,6 @@ services:
       dockerfile: Dockerfile
     image: frontend
     command: ng serve --configuration=docker
-    container_name: frontend
     ports:
       - "4201:4200"
     depends_on:
