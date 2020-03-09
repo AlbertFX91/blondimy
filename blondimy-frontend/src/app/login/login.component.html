@@ -35,15 +35,17 @@
             Blondimy
         </div>
         <div id="sigin-selector-container">
-            <span>LOG IN</span> 
-            <label class="switch">
-                <input type="checkbox">
+            <span [ngClass]="{'mode-selected': onLoginMode()}">LOG IN</span> 
+            <label class="switch" for="mode-switch">
+                <input id="mode-switch" type="checkbox" 
+                (change)="checkValue($event)"
+                >
                 <span class="slider round"></span>
                 </label>
-            <span>SIGN IN</span> 
+            <span [ngClass]="{'mode-selected': onSigninMode()}">SIGN IN</span> 
         </div>
         <div id="signin-selector-body">
-            <form id="login-form" #loginForm="ngForm" (ngSubmit)="onLogin()" va>
+            <form id="login-form" #loginForm="ngForm" (ngSubmit)="submit()" va>
                 <div>
                     <h1>WELCOME</h1>
                 </div>
@@ -59,7 +61,7 @@
                         placeholder="Password"/>
                     </div>
                     <div id="error-container" *ngIf="error">
-                        <span>{{error.message}}</span>
+                        <span>{{error}}</span>
                     </div>
                 </div>
                 <div style="width: 100%;">

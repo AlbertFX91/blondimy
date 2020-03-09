@@ -1,36 +1,24 @@
-import { AppPage } from './app.po';
+import { LoginPage } from './login.po';
 import { browser, logging, by, element  } from 'protractor';
 import { protractor } from 'protractor/built/ptor';
 
 describe('When a new user enters in the application', () => {
-  let page: AppPage;
+  let page: LoginPage;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new LoginPage();
   });
 
-  /*
-  it('should display welcome message', () => {
-    page.navigateTo();
-    expect(page.getTitleText()).toEqual('blondimy-frontend app is running!');
-  });
-  */
  it('it should display the login page', () => {
     page.navigateTo();
-    expect(element(by.css('app-root #login-screen')).isPresent()).toBe(true);
+    expect(page.loginForm.isPresent()).toBe(true);
   });
 
   /* WAITING FOR REGISTER FR */
-  /*
   it('it can log in with its credentials', () => {
-    var username = element(protractor.By.name('username'));
-    var password = element(protractor.By.name('password'));
-    var submit = element(protractor.By.tagName('button'));
-    
-    username.sendKeys('testing');
-    password.sendKeys('testing');
-    submit.click();
-    // expect(element(by.css('//#endregionlogin-form')).isPresent()).toBe(true);
+    page.setValues('testing', 'testing');
+    page.submitButton.click();
+    expect(page.errors.isPresent()).toBe(false);
   });
   it('it can display its home page when the user has been logged', () => {
     var EC = protractor.ExpectedConditions;
@@ -40,7 +28,6 @@ describe('When a new user enters in the application', () => {
 
     expect(element(by.css('p')).getText()).toEqual("home works!");
   });
-  */
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
     const logs = await browser.manage().logs().get(logging.Type.BROWSER);
